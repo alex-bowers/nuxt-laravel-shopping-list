@@ -1,8 +1,14 @@
 const pkg = require('./package')
+const env = require('dotenv').config()
 
 
 module.exports = {
     mode: 'universal',
+
+    /*
+    ** Customize the progress-bar color
+    */
+   env: env.parsed,
 
     /*
     ** Headers of the page
@@ -50,7 +56,8 @@ module.exports = {
     ** Axios module configuration
     */
     axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+        // See https://github.com/nuxt-community/axios-module#options
+        baseURL: process.env.API_LINK
     },
 
     /*
