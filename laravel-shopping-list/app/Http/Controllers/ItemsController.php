@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use GrahamCampbell\Binput\Facades\Binput;
-use Illuminate\Cache\Repository;
 use Illuminate\Routing\Controller;
 
 class ItemsController extends Controller
@@ -16,11 +15,7 @@ class ItemsController extends Controller
      */
     public function getItems()
     {
-        $cache = app(Repository::class);
-
-        return $cache->remember('items', 1440, function () {
-            return Item::all();
-        });
+        return Item::withTrashed()->get();
     }
 
     /**
@@ -32,9 +27,9 @@ class ItemsController extends Controller
     {
         $item = Binput::all();
 
-        Item::create($item);
+        $newItem = Item::create($item);
 
-        return response()->json($item);
+        return response()->json($newItem);
     }
 
     /**

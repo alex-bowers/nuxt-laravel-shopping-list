@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ListItem from "../components/List-item.vue";
 import NewItem from "../components/New-item.vue";
 
@@ -21,7 +21,13 @@ export default {
         ListItem,
         NewItem
     },
+    beforeMount() {
+
+    },
     computed: {
+        ...mapActions([
+            'getItems'
+        ]),
         ...mapGetters([
             'currentList'
         ])
