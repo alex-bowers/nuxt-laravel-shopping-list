@@ -3,40 +3,13 @@ import { slugify } from "../components/helpers.js";
 export const strict = false
 
 export const state = () => ({
-    list: [
-        {
-            id: 1,
-            active: true,
-            name: "Bread",
-            quantity: 1,
-            slug: "bread"
-        },
-        {
-            id: 2,
-            active: false,
-            name: "milk",
-            quantity: 5,
-            slug: "milk"
-        },
-        {
-            id: 3,
-            active: true,
-            name: "Flour",
-            quantity: 3,
-            slug: "flour"
-        }
-    ],
+    list: [],
     maxQuantity: 20
 })
 
 export const getters = {
     currentList: state => {
         return state.list.filter(item => item.quantity > 0)
-    },
-    maxId: state => {
-        const allIds = state.list.map(item => item.id)
-
-        return Math.max(...allIds)
     },
     maxQuantity: state => {
         return state.maxQuantity
@@ -51,7 +24,7 @@ export const mutations = {
         state.list[item].active = true
     },
     ITEM_ADD_NEW(state, item) {
-        Vue.set(state.list, item.key, {...item})
+        Vue.set(state.list, item.id - 1, {...item})
     },
     ITEM_ADD_QUANTITY(state, item) {
         state.list[item].quantity++
@@ -67,37 +40,65 @@ export const mutations = {
     },
     ITEM_TOGGLE(state, item) {
         state.list[item].active = !state.list[item].active
+    },
+    SET_ITEMS(state, items) {
+        Vue.set(state, 'list', items)
     }
 }
 
 export const actions = {
-    addNewItem({ commit, getters }, item) {
-        item.id = getters['maxId'] + 1
-        item.key = getters['numberOfItemsInList']
+    addNewItem({ commit, getters, state }, item) {
         item.slug = slugify(item.name)
 
-        commit('ITEM_ADD_NEW', item)
+        this.$axios.$post('/items', item).then((result) => {
+            console.log(result)
+            commit('ITEM_ADD_NEW', result)
+        })
     },
-    addQuantityToItem({ commit, state }, item) {
+    async addQuantityToItem({ commit, state }, item) {
         const itemIndex = state.list.findIndex(listItem => listItem.id === item)
 
-        commit('ITEM_ACTIVE', itemIndex)
-        commit('ITEM_ADD_QUANTITY', itemIndex)
+        await commit('ITEM_ACTIVE', itemIndex)
+        await commit('ITEM_ADD_QUANTITY', itemIndex)
+
+        this.$axios.$put(`/items/${state.list[itemIndex].id}`, {
+            'quantity': state.list[itemIndex].quantity
+        })
     },
-    removeItem({ commit, state }, item) {
+    async getItems({ commit, state}, item) {
+        const allItems = await this.$axios.$get('/items')
+        commit('SET_ITEMS', allItems)
+    },
+    async removeItem({ commit, state }, item) {
+        console.log(item);
         const itemIndex = state.list.findIndex(listItem => listItem.id === item)
 
-        commit('ITEM_INACTIVE', itemIndex)
-        commit('ITEM_NO_QUANTITY', itemIndex)
+        await commit('ITEM_NO_QUANTITY', itemIndex)
+
+        console.log(state.list[itemIndex].id);
+
+        this.$axios.$put(`/items/${state.list[itemIndex].id}`, {
+            'quantity': 0
+        }).then(() => {
+            this.$axios.$delete(`/items/${state.list[itemIndex].id}`)
+        })
     },
-    removeQuantityToItem({ commit, state }, item) {
+    async removeQuantityToItem({ commit, state }, item) {
         const itemIndex = state.list.findIndex(listItem => listItem.id === item)
 
-        commit('ITEM_REMOVE_QUANTITY', itemIndex)
+        await commit('ITEM_REMOVE_QUANTITY', itemIndex)
+
+        this.$axios.$put(`/items/${state.list[itemIndex].id}`, {
+            'quantity': state.list[itemIndex].quantity
+        })
     },
-    toggleActive({ commit, state }, item) {
+    async toggleActive({ commit, state }, item) {
         const itemIndex = state.list.findIndex(listItem => listItem.id === item)
 
-        commit('ITEM_TOGGLE', itemIndex)
+        await commit('ITEM_TOGGLE', itemIndex)
+
+        this.$axios.$put(`/items/${state.list[itemIndex].id}`, {
+            'active': state.list[itemIndex].active
+        })
     }
 }
