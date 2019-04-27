@@ -17,4 +17,9 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'api'], function () {
     Route::get('items', 'ItemsController@getItems');
+    Route::resource('items', 'ItemsController')->only([
+        'store',
+        'update',
+        'destroy'
+    ]);
 });

@@ -167,6 +167,8 @@ return [
         /*
          * Package Service Providers...
          */
+        GrahamCampbell\Binput\BinputServiceProvider::class,
+        GrahamCampbell\Security\SecurityServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -225,6 +227,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'Binput' => GrahamCampbell\Binput\Facades\Binput::class,
 
     ],
 

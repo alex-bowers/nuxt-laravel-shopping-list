@@ -21,6 +21,7 @@ class CreateItemsTable extends Migration
             $table->text('image')->nullable()->default(null);
             $table->boolean('active')->nullable()->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
