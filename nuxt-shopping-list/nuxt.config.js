@@ -41,12 +41,14 @@ module.exports = {
     ** Plugins to load before mounting the App
     */
     plugins: [
+        '~plugins/mixins/user.js'
     ],
 
     /*
     ** Nuxt.js modules
     */
     modules: [
+        '@nuxtjs/auth',
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',
         // Doc: https://github.com/nuxt-community/style-resources-module
@@ -57,7 +59,18 @@ module.exports = {
     */
     axios: {
         // See https://github.com/nuxt-community/axios-module#options
-        baseURL: process.env.API_LINK
+        baseURL: process.env.API_LINK,
+        auth: {
+            strategies: {
+                local: {
+                    endpoints: {
+                        login: { url: 'login', method: 'post', propertyName: 'token' },
+                        user: { url: 'user', method: 'get', propertyName: false },
+                        logout: { url: 'logout', method: 'post' }
+                    },
+                }
+            },
+        }
     },
 
     /*

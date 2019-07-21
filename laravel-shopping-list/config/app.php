@@ -169,6 +169,7 @@ return [
          */
         GrahamCampbell\Binput\BinputServiceProvider::class,
         GrahamCampbell\Security\SecurityServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -229,6 +230,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Binput' => GrahamCampbell\Binput\Facades\Binput::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
 
     ],
 
