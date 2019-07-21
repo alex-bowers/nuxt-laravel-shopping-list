@@ -11,15 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['prefix' => 'api'], function () {
-    Route::get('items', 'ItemsController@getItems');
-    Route::resource('items', 'ItemsController')->only([
-        'store',
-        'update',
-        'destroy'
-    ]);
+    
 });
