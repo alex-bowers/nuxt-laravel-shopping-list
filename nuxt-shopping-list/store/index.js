@@ -11,12 +11,18 @@ export const getters = {
     currentList: state => {
         return state.list.filter(item => item.quantity > 0)
     },
+    loggedIn: state => {
+        return state.auth.loggedIn
+    },
     maxQuantity: state => {
         return state.maxQuantity
     },
     numberOfItemsInList: state => {
         return Object.keys(state.list).length
     },
+    user: state => {
+        return state.auth.user
+    }
 }
 
 export const mutations = {
@@ -61,12 +67,12 @@ export const actions = {
         await commit('ITEM_ACTIVE', itemIndex)
         await commit('ITEM_ADD_QUANTITY', itemIndex)
 
-        this.$axios.$put(`/items/${state.list[itemIndex].id}`, {
+        this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
             'quantity': state.list[itemIndex].quantity
         })
     },
     async getItems({ commit, state}, item) {
-        const allItems = await this.$axios.$get('/items')
+        const allItems = await this.$axios.$get('/api/auth/items')
         commit('SET_ITEMS', allItems)
     },
     async removeItem({ commit, state }, item) {
@@ -77,10 +83,10 @@ export const actions = {
 
         console.log(state.list[itemIndex].id);
 
-        this.$axios.$put(`/items/${state.list[itemIndex].id}`, {
+        this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
             'quantity': 0
         }).then(() => {
-            this.$axios.$delete(`/items/${state.list[itemIndex].id}`)
+            this.$axios.$delete(`/api/auth/items/${state.list[itemIndex].id}`)
         })
     },
     async removeQuantityToItem({ commit, state }, item) {
@@ -88,7 +94,7 @@ export const actions = {
 
         await commit('ITEM_REMOVE_QUANTITY', itemIndex)
 
-        this.$axios.$put(`/items/${state.list[itemIndex].id}`, {
+        this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
             'quantity': state.list[itemIndex].quantity
         })
     },
@@ -97,7 +103,7 @@ export const actions = {
 
         await commit('ITEM_TOGGLE', itemIndex)
 
-        this.$axios.$put(`/items/${state.list[itemIndex].id}`, {
+        this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
             'active': state.list[itemIndex].active
         })
     }
