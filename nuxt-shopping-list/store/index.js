@@ -53,11 +53,10 @@ export const mutations = {
 }
 
 export const actions = {
-    addNewItem({ commit, getters, state }, item) {
+    addNewItem({ commit }, item) {
         item.slug = slugify(item.name)
 
-        this.$axios.$post('/items', item).then((result) => {
-            console.log(result)
+        this.$axios.$post('/api/auth/items', item).then((result) => {
             commit('ITEM_ADD_NEW', result)
         })
     },
@@ -71,7 +70,7 @@ export const actions = {
             'quantity': state.list[itemIndex].quantity
         })
     },
-    async getItems({ commit, state}, item) {
+    async getItems({ commit }) {
         const allItems = await this.$axios.$get('/api/auth/items')
         commit('SET_ITEMS', allItems)
     },
