@@ -1,15 +1,38 @@
 <template>
-    <section class="container">
-        <h1>Index</h1>
-    </section>
+    <div>
+        <h1>Shopping List</h1>
+        <new-item></new-item>
+        <div
+            v-for="item in currentList"
+            :key="item.id"
+        >
+            <list-item :item="item"></list-item>
+        </div>
+    </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import ListItem from "../components/List-item.vue";
+import NewItem from "../components/New-item.vue";
 
 export default {
+    middleware: 'notAuthenticated',
+    components: {
+        ListItem,
+        NewItem
+    },
+    computed: {
+        ...mapActions([
+            'getItems'
+        ]),
+        ...mapGetters([
+            'currentList'
+        ])
+    },
 }
 </script>
 
-<style>
+<style lang="scss">
 
 </style>

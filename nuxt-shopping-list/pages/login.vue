@@ -34,7 +34,7 @@ export default {
                 data: this.userForm
             });
             this.$router.push({
-                path: '/list'
+                path: '/'
             });
         }
     }

@@ -44,7 +44,7 @@ export default {
                 }
             })
             this.$router.push({
-                path: "/list"
+                path: "/"
             });
         }
     }
