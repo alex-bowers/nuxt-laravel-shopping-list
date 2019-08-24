@@ -71,7 +71,7 @@ export const actions = {
         })
     },
     async getItems({ commit }) {
-        const allItems = await this.$axios.$get('/api/auth/items')
+        const allItems = await this.$axios.$get('/api/items/active')
         commit('SET_ITEMS', allItems)
     },
     async removeItem({ commit, state }, item) {

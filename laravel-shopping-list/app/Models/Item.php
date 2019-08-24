@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Item extends Model
 {
@@ -15,11 +16,12 @@ class Item extends Model
      * @var string[]
      */
     protected $casts = [
-        'name'     => 'string',
-        'slug'     => 'string',
-        'quantity' => 'int',
-        'image'    => 'string',
-        'active'   => 'bool'
+        'name'        => 'string',
+        'slug'        => 'string',
+        'category_id' => 'int',
+        'quantity'    => 'int',
+        'image'       => 'string',
+        'active'      => 'bool'
     ];
 
     /**
@@ -30,6 +32,7 @@ class Item extends Model
     protected $fillable = [
         'name',
         'slug',
+        'category_id',
         'quantity',
         'image',
         'active'
@@ -41,10 +44,19 @@ class Item extends Model
      * @var string[]
      */
     public $rules = [
-        'name'     => 'required|string',
-        'slug'     => 'required|string',
-        'quantity' => 'required|int',
-        'image'    => 'nullable|string',
-        'active'   => 'required|bool'
+        'name'        => 'required|string',
+        'slug'        => 'required|string',
+        'category_id' => 'required|string',
+        'quantity'    => 'required|int',
+        'image'       => 'nullable|string',
+        'active'      => 'required|bool'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function items(): HasOne
+    {
+        return $this->hasOne(ItemCategory::class);
+    }
 }

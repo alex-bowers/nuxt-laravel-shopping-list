@@ -9,11 +9,23 @@ use Illuminate\Routing\Controller;
 class ItemsController extends Controller
 {
     /**
-     * Get all items.
+     * Get all active items.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getItems()
+    public function getActiveItems()
+    {
+        return Item::get();
+
+        // TODO: Split into catagories.
+    }
+
+    /**
+     * Get all inactive items.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getInactiveItems()
     {
         return Item::withTrashed()->get();
     }
