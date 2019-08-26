@@ -1,6 +1,7 @@
 <template>
     <div>
         <h2>{{ $props.name }}</h2>
+        <new-item category-id=""></new-item>
         <list-item
             v-for="item in $props.items"
             :key="item.id"
@@ -11,10 +12,12 @@
 
 <script>
 import ListItem from "../components/List-item.vue";
+import NewItem from "../components/New-item.vue";
 
 export default {
     components: {
         ListItem,
+        NewItem
     },
     props: {
         items: {
