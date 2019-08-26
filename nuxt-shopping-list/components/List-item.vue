@@ -1,15 +1,15 @@
 <template>
     <div
-        :class="{'is-active': !item.active}"
+        :class="{'is-active': !$props.item.active}"
         class="shopping-list-item"
     >
-        <div>Name: {{ item.name }}</div>
-        <div>Quantity: {{ item.quantity }}</div>
+        <div>Name: {{ $props.item.name }}</div>
+        <div>Quantity: {{ $props.item.quantity }}</div>
         <div>
-            <span @click="addQuantityToItem(item.id)">Add</span>
-            <span @click="removeQuantityToItem(item.id)">Remove</span>
-            <span @click="removeItem(item.id)">Delete</span>
-            <span @click="toggleActive(item.id)">Toggle</span>
+            <span @click="addQuantityToItem($props.item.id)">Add</span>
+            <span @click="removeQuantityToItem($props.item.id)">Remove</span>
+            <span @click="removeItem($props.item.id)">Delete</span>
+            <span @click="toggleActive($props.item.id)">Toggle</span>
         </div>
     </div>
 </template>

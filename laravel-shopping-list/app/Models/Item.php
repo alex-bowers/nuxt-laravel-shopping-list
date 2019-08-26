@@ -55,8 +55,8 @@ class Item extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function items(): HasOne
+    public function category(): HasOne
     {
-        return $this->hasOne(ItemCategory::class);
+        return $this->hasOne(ItemCategory::class, 'id', 'category_id');
     }
 }

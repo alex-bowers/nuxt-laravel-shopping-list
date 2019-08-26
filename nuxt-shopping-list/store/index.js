@@ -9,7 +9,14 @@ export const state = () => ({
 
 export const getters = {
     currentList: state => {
-        return state.list.filter(item => item.quantity > 0)
+        let filteredList = {}
+        for (const category in state.list) {
+            if (state.list.hasOwnProperty(category)) {
+                filteredList[category] = state.list[category].filter(item => item.quantity > 0)
+            }
+        }
+
+        return filteredList
     },
     loggedIn: state => {
         return state.auth.loggedIn
@@ -30,7 +37,7 @@ export const mutations = {
         state.list[item].active = true
     },
     ITEM_ADD_NEW(state, item) {
-        Vue.set(state.list, item.id - 1, {...item})
+        Vue.set(state.list, item.id - 1, { ...item })
     },
     ITEM_ADD_QUANTITY(state, item) {
         state.list[item].quantity++

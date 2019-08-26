@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Routing\Controller;
@@ -15,9 +16,9 @@ class ItemsController extends Controller
      */
     public function getActiveItems()
     {
-        return Item::get();
-
-        // TODO: Split into catagories.
+        return Item::get()->mapToGroups(function ($item, $key) {
+            return [$item->category->name => new ItemResource($item)];
+        });
     }
 
     /**
