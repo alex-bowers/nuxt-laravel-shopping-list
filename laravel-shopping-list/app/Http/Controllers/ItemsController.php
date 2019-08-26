@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Routing\Controller;
@@ -9,11 +10,23 @@ use Illuminate\Routing\Controller;
 class ItemsController extends Controller
 {
     /**
-     * Get all items.
+     * Get all active items.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getItems()
+    public function getActiveItems()
+    {
+        return Item::get()->mapToGroups(function ($item, $key) {
+            return [$item->category->name => new ItemResource($item)];
+        });
+    }
+
+    /**
+     * Get all inactive items.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getInactiveItems()
     {
         return Item::withTrashed()->get();
     }

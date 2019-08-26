@@ -3,23 +3,26 @@
         <h1>Shopping List</h1>
         <new-item></new-item>
         <div
-            v-for="item in currentList"
-            :key="item.id"
+            v-for="(category, name) in currentList"
+            :key="category.name"
         >
-            <list-item :item="item"></list-item>
+            <list-category
+                :items="category"
+                :name="name"
+            ></list-category>
         </div>
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ListItem from "../components/List-item.vue";
+import ListCategory from "../components/List-category.vue";
 import NewItem from "../components/New-item.vue";
 
 export default {
     middleware: 'notAuthenticated',
     components: {
-        ListItem,
+        ListCategory,
         NewItem
     },
     computed: {
