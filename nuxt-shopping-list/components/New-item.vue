@@ -38,8 +38,10 @@ export default {
         ]),
         addToList() {
             if (this.form.name) {
-                // Todo Use category id.
-                this.addNewItem(this.form)
+                this.addNewItem({
+                    ...this.form,
+                    category_id: this.$props.categoryId
+                })
                 .then(() => {
                     this.resetForm()
                 })

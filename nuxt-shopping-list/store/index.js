@@ -41,7 +41,7 @@ export const mutations = {
         state.list[item].active = true
     },
     ITEM_ADD_NEW(state, item) {
-        Vue.set(state.list, item.id - 1, { ...item })
+        Vue.set(state.list[item.category_id - 1].items, item.id - 1, { ...item })
     },
     ITEM_ADD_QUANTITY(state, item) {
         state.list[item].quantity++
@@ -65,11 +65,13 @@ export const mutations = {
 
 export const actions = {
     addNewItem({ commit }, item) {
+        console.log(item);
         item.slug = slugify(item.name)
 
-        this.$axios.$post('/api/auth/items', item).then((result) => {
-            commit('ITEM_ADD_NEW', result)
-        })
+        this.$axios.$post('/api/auth/items', item)
+            .then((result) => {
+                commit('ITEM_ADD_NEW', result)
+            })
     },
     async addQuantityToItem({ commit, state }, item) {
         const itemIndex = state.list.findIndex(listItem => listItem.id === item)
