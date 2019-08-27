@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import ListCategory from "../components/List-category.vue";
 
 export default {
@@ -23,13 +23,13 @@ export default {
         ListCategory
     },
     computed: {
-        ...mapActions([
-            'getItems'
-        ]),
         ...mapGetters([
             'currentList'
         ])
     },
+    created() {
+        this.$store.dispatch('getItems')
+    }
 }
 </script>
 
