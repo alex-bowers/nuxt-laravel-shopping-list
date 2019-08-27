@@ -25,6 +25,7 @@
 
 <script>
 export default {
+    middleware: 'notAuthenticated',
     data() {
         return {
             userForm: {
