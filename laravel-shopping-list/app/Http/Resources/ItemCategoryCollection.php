@@ -4,14 +4,14 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ItemsCollection extends ResourceCollection
+class ItemCategoryCollection extends ResourceCollection
 {
     /**
      * The resource that this resource collects.
      *
      * @var string
      */
-    public $collects = 'App\Http\Resources\ItemsResource';
+    public $collects = 'App\Http\Resources\ItemCategoryResource';
 
     /**
      * Transform the resource collection into an array.

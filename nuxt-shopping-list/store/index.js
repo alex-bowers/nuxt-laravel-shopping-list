@@ -12,7 +12,11 @@ export const getters = {
         let filteredList = {}
         for (const category in state.list) {
             if (state.list.hasOwnProperty(category)) {
-                filteredList[category] = state.list[category].filter(item => item.quantity > 0)
+                let fullCategory = state.list[category]
+                filteredList[category] = {
+                    ...fullCategory,
+                    items: fullCategory.items.filter(item => item.quantity > 0)
+                }
             }
         }
 
@@ -79,15 +83,12 @@ export const actions = {
     },
     async getItems({ commit }) {
         const allItems = await this.$axios.$get('/api/items/active')
-        commit('SET_ITEMS', allItems)
+        commit('SET_ITEMS', allItems['data'])
     },
     async removeItem({ commit, state }, item) {
-        console.log(item);
         const itemIndex = state.list.findIndex(listItem => listItem.id === item)
 
         await commit('ITEM_NO_QUANTITY', itemIndex)
-
-        console.log(state.list[itemIndex].id);
 
         this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
             'quantity': 0

@@ -1,9 +1,9 @@
 <template>
     <div>
         <h2>{{ $props.name }}</h2>
-        <new-item category-id=""></new-item>
+        <new-item :category-id="$props.category.id"></new-item>
         <list-item
-            v-for="item in $props.items"
+            v-for="item in $props.category.items"
             :key="item.id"
             :item="item"
         ></list-item>
@@ -20,9 +20,9 @@ export default {
         NewItem
     },
     props: {
-        items: {
+        category: {
             default: null,
-            type: Array
+            type: Object
         },
         name: {
             default: null,

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ItemsCollection;
+use App\Http\Resources\ItemCategoryCollection;
 use App\Models\Item;
 use App\Models\ItemCategory;
 use GrahamCampbell\Binput\Facades\Binput;
@@ -17,9 +17,7 @@ class ItemsController extends Controller
      */
     public function getActiveItems()
     {
-        return ItemCategory::all()->mapToGroups(function ($category, $key) {
-            return [$category->name => new ItemsCollection($category->items)];
-        });
+        return new ItemCategoryCollection(ItemCategory::all());
     }
 
     /**

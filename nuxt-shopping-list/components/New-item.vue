@@ -12,6 +12,12 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+    props: {
+        categoryId: {
+            default: null,
+            type: Number
+        }
+    },
     data() {
         return {
             form: {
@@ -32,6 +38,7 @@ export default {
         ]),
         addToList() {
             if (this.form.name) {
+                // Todo Use category id.
                 this.addNewItem(this.form)
                 .then(() => {
                     this.resetForm()

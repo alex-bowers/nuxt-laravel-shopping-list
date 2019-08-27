@@ -2,12 +2,12 @@
     <div>
         <h1>Shopping List</h1>
         <div
-            v-for="(category, name) in currentList"
+            v-for="category in currentList"
             :key="category.name"
         >
             <list-category
-                :items="category"
-                :name="name"
+                :category="category"
+                :name="category.name"
             ></list-category>
         </div>
     </div>
