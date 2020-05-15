@@ -6,10 +6,10 @@
         <div>Name: {{ $props.item.name }}</div>
         <div>Quantity: {{ $props.item.quantity }}</div>
         <div>
-            <span @click="addQuantityToItem($props.item.id)">Add</span>
-            <span @click="removeQuantityToItem($props.item.id)">Remove</span>
-            <span @click="removeItem($props.item.id)">Delete</span>
-            <span @click="toggleActive($props.item.id)">Toggle</span>
+            <span @click="addQuantityToItem($props.item)">Add</span>
+            <span @click="removeQuantityToItem($props.item)">Remove</span>
+            <span @click="removeItem($props.item)">Delete</span>
+            <span @click="toggleActive($props.item)">Toggle</span>
         </div>
     </div>
 </template>
