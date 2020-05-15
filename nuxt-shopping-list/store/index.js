@@ -37,50 +37,62 @@ export const getters = {
 }
 
 export const mutations = {
-    ITEM_ACTIVE(state, item) {
-        state.list[item].active = true
+    ITEM_ACTIVE(state, payload) {
+        state.list[payload.categoryIndex].items[payload.itemIndex].active = true
     },
-    ITEM_ADD_NEW(state, item) {
-        Vue.set(state.list[item.category_id - 1].items, item.id - 1, { ...item })
+    ITEM_ADD_NEW(state, payload) {
+        state.list[payload.categoryIndex].items.push(payload.result)
     },
-    ITEM_ADD_QUANTITY(state, item) {
-        state.list[item].quantity++
+    ITEM_ADD_QUANTITY(state, payload) {
+        state.list[payload.categoryIndex].items[payload.itemIndex].quantity++
     },
-    ITEM_INACTIVE(state, item) {
-        state.list[item].active = false
+    ITEM_INACTIVE(state, payload) {
+        state.list[payload.categoryIndex].items[payload.itemIndex].active = false
     },
-    ITEM_NO_QUANTITY(state, item) {
-        state.list[item].quantity = 0
+    ITEM_NO_QUANTITY(state, payload) {
+        state.list[payload.categoryIndex].items[payload.itemIndex].quantity = 0
     },
-    ITEM_REMOVE_QUANTITY(state, item) {
-        state.list[item].quantity--
+    ITEM_REMOVE_QUANTITY(state, payload) {
+        state.list[payload.categoryIndex].items[payload.itemIndex].quantity--
     },
-    ITEM_TOGGLE(state, item) {
-        state.list[item].active = !state.list[item].active
+    ITEM_TOGGLE(state, payload) {
+        state.list[payload.categoryIndex].items[payload.itemIndex].active = !state.list[payload.categoryIndex].items[payload.itemIndex].active
     },
-    SET_ITEMS(state, items) {
-        Vue.set(state, 'list', items)
+    SET_ITEMS(state, payload) {
+        Vue.set(state, 'list', payload)
     }
 }
 
 export const actions = {
-    addNewItem({ commit }, item) {
-        console.log(item);
+    addNewItem({ commit, state }, item) {
         item.slug = slugify(item.name)
 
         this.$axios.$post('/api/auth/items', item)
             .then((result) => {
-                commit('ITEM_ADD_NEW', result)
+                console.log(result.category_id, result.id);
+                const categoryIndex = state.list.findIndex(listItem => listItem.id === result.category_id)
+
+                commit('ITEM_ADD_NEW', {
+                    categoryIndex,
+                    result
+                })
             })
     },
     async addQuantityToItem({ commit, state }, item) {
-        const itemIndex = state.list.findIndex(listItem => listItem.id === item)
+        const categoryIndex = state.list.findIndex(listItem => listItem.id === item.category_id)
+        const itemIndex = state.list[categoryIndex].items.findIndex(listItem => listItem.id === item.id)
 
-        await commit('ITEM_ACTIVE', itemIndex)
-        await commit('ITEM_ADD_QUANTITY', itemIndex)
+        await commit('ITEM_ACTIVE', {
+            categoryIndex,
+            itemIndex
+        })
+        await commit('ITEM_ADD_QUANTITY', {
+            categoryIndex,
+            itemIndex
+        })
 
-        this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
-            'quantity': state.list[itemIndex].quantity
+        this.$axios.$put(`/api/auth/items/${state.list[categoryIndex].items[itemIndex].id}`, {
+            'quantity': state.list[categoryIndex].items[itemIndex].quantity
         })
     },
     async getItems({ commit }) {
@@ -88,32 +100,44 @@ export const actions = {
         commit('SET_ITEMS', allItems['data'])
     },
     async removeItem({ commit, state }, item) {
-        const itemIndex = state.list.findIndex(listItem => listItem.id === item)
+        const categoryIndex = state.list.findIndex(listItem => listItem.id === item.category_id)
+        const itemIndex = state.list[categoryIndex].items.findIndex(listItem => listItem.id === item.id)
 
-        await commit('ITEM_NO_QUANTITY', itemIndex)
+        await commit('ITEM_NO_QUANTITY', {
+            categoryIndex,
+            itemIndex
+        })
 
-        this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
+        this.$axios.$put(`/api/auth/items/${state.list[categoryIndex].items[itemIndex].id}`, {
             'quantity': 0
         }).then(() => {
-            this.$axios.$delete(`/api/auth/items/${state.list[itemIndex].id}`)
+            this.$axios.$delete(`/api/auth/items/${state.list[categoryIndex].items[itemIndex].id}`)
         })
     },
     async removeQuantityToItem({ commit, state }, item) {
-        const itemIndex = state.list.findIndex(listItem => listItem.id === item)
+        const categoryIndex = state.list.findIndex(listItem => listItem.id === item.category_id)
+        const itemIndex = state.list[categoryIndex].items.findIndex(listItem => listItem.id === item.id)
 
-        await commit('ITEM_REMOVE_QUANTITY', itemIndex)
+        await commit('ITEM_REMOVE_QUANTITY', {
+            categoryIndex,
+            itemIndex
+        })
 
-        this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
-            'quantity': state.list[itemIndex].quantity
+        this.$axios.$put(`/api/auth/items/${state.list[categoryIndex].items[itemIndex].id}`, {
+            'quantity': state.list[categoryIndex].items[itemIndex].quantity
         })
     },
     async toggleActive({ commit, state }, item) {
-        const itemIndex = state.list.findIndex(listItem => listItem.id === item)
+        const categoryIndex = state.list.findIndex(listItem => listItem.id === item.category_id)
+        const itemIndex = state.list[categoryIndex].items.findIndex(listItem => listItem.id === item.id)
 
-        await commit('ITEM_TOGGLE', itemIndex)
+        await commit('ITEM_TOGGLE', {
+            categoryIndex,
+            itemIndex
+        })
 
-        this.$axios.$put(`/api/auth/items/${state.list[itemIndex].id}`, {
-            'active': state.list[itemIndex].active
+        this.$axios.$put(`/api/auth/items/${state.list[categoryIndex].items[itemIndex].id}`, {
+            'active': state.list[categoryIndex].items[itemIndex].active
         })
     }
 }
