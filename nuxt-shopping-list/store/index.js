@@ -69,7 +69,6 @@ export const actions = {
 
         this.$axios.$post('/api/auth/items', item)
             .then((result) => {
-                console.log(result.category_id, result.id);
                 const categoryIndex = state.list.findIndex(listItem => listItem.id === result.category_id)
 
                 commit('ITEM_ADD_NEW', {
@@ -114,7 +113,12 @@ export const actions = {
             this.$axios.$delete(`/api/auth/items/${state.list[categoryIndex].items[itemIndex].id}`)
         })
     },
-    async removeQuantityToItem({ commit, state }, item) {
+    async removeQuantityToItem({ commit, dispatch, state }, item) {
+        // If we're about to remove the last quantity, delete item.
+        if (item.quantity - 1 === 0) {
+            return dispatch("removeItem", item);
+        }
+
         const categoryIndex = state.list.findIndex(listItem => listItem.id === item.category_id)
         const itemIndex = state.list[categoryIndex].items.findIndex(listItem => listItem.id === item.id)
 
