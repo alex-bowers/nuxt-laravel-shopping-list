@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         async registerUser() {
-            await this.$axios.post("api/register", this.userForm);
+            await this.$axios.post("api/register", this.userForm)
             this.$auth.login({
                 data: {
                     email: this.userForm.email,
@@ -46,7 +46,7 @@ export default {
             })
             this.$router.push({
                 path: "/"
-            });
+            })
         }
     }
 }

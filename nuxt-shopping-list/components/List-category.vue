@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import ListItem from "../components/List-item.vue";
-import NewItem from "../components/New-item.vue";
+import ListItem from "../components/List-item.vue"
+import NewItem from "../components/New-item.vue"
 
 export default {
     components: {
