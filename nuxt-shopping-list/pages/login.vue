@@ -50,7 +50,10 @@
                     />
                 </div>
                 <div class="button--container">
-                    <button type="submit">Login</button>
+                    <button
+                        class="submit-button"
+                        type="submit"
+                    >Login</button>
                 </div>
             </form>
         </div>
@@ -177,12 +180,7 @@ $element-margin: 4rem;
     }
 }
 
-button {
-    background-color: $blue-11;
-    border-radius: 0.5rem;
-    border: 0;
-    color: $blue-19;
-    font-size: inherit;
+.submit-button {
     margin-top: $element-margin;
     padding: 1rem;
     width: 100%;
@@ -196,7 +194,7 @@ button {
 @media (min-width: $breakpoint-medium) {
     .button--container {
         text-align: right;
-        button {
+        .submit-button {
             max-width: 200px;
         }
     }

@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <h1>Shopping List</h1>
-        <div
-            v-for="category in currentList"
-            :key="category.name"
-        >
+    <div class="shopping-list">
+        <h1 class="page--header">Shopping List</h1>
+        <div class="shopping-list--categories">
             <list-category
+                v-for="category in currentList"
+                :key="category.name"
                 :category="category"
                 :name="category.name"
+                class="shopping-list--category"
             ></list-category>
         </div>
     </div>
@@ -34,5 +34,22 @@ export default {
 </script>
 
 <style lang="scss">
+.shopping-list--category {
+    padding: 1rem;
+    background-color: $blue-5;
+    &:nth-child(even) {
+        background-color: $blue-7;
+    }
+}
 
+@media (min-width: $breakpoint-large) {
+    .shopping-list--categories {
+        display: flex;
+        justify-content: space-between;
+    }
+    .shopping-list--category {
+        width: 100%;
+        padding: 2rem;
+    }
+}
 </style>

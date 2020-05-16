@@ -18,7 +18,7 @@ export default {
 <style lang="scss">
 body {
     background-color: $blue-4;
-    color: $blue-19;
+    color: $blue-17;
     font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
         'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-size: 16px;

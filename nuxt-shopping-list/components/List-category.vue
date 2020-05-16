@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>{{ $props.name }}</h2>
+        <h2 class="category--header">{{ $props.name }}</h2>
         <new-item :category-id="$props.category.id"></new-item>
         <list-item
             v-for="item in $props.category.items"
@@ -33,5 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.category--header {
+    margin: 0 0 1rem 0;
+}
 </style>
