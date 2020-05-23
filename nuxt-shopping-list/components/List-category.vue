@@ -2,11 +2,13 @@
     <div>
         <h2 class="category--header">{{ $props.name }}</h2>
         <new-item :category-id="$props.category.id"></new-item>
-        <list-item
-            v-for="item in $props.category.items"
-            :key="item.id"
-            :item="item"
-        ></list-item>
+        <transition-group name="flip-list" tag="div">
+            <list-item
+                v-for="item in sortedListItems"
+                :key="item.id"
+                :item="item"
+            ></list-item>
+        </transition-group>
     </div>
 </template>
 
@@ -28,6 +30,17 @@ export default {
             default: null,
             type: String
         }
+    },
+    computed: {
+        sortedListItems() {
+            return this.$props.category.items.sort((a, b) => {
+                if (a.active > b.active) return -1
+                if (a.active < b.active) return 1
+
+                if (a.id > b.id) return -1
+                if (a.id < b.id) return 1
+            })
+        }
     }
 }
 </script>
@@ -35,5 +48,8 @@ export default {
 <style lang="scss" scoped>
 .category--header {
     margin: 0 0 1rem 0;
+}
+.flip-list-move {
+    transition: all 0.4s ease-out;
 }
 </style>
