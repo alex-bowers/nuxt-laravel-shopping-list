@@ -1,13 +1,17 @@
 <template>
-    <div class="category" @click="isCategoryOpenOnMobile = !isCategoryOpenOnMobile">
-        <div class="category--header">
+    <div class="category">
+        <div class="category--header" @click="isCategoryOpenOnMobile = !isCategoryOpenOnMobile">
             <h2>{{ $props.name }}</h2>
             <dropdown-arrow
                 :is-active="isCategoryOpenOnMobile"
             ></dropdown-arrow>
         </div>
         <transition name="slide">
-            <div v-show="isCategoryOpenOnMobile" :id="collapsableContainerId" class="category--collapsable-container">
+            <div
+                v-show="isCategoryOpenOnMobile"
+                :id="collapsableContainerId"
+                class="category--collapsable-container"
+            >
                 <new-item :category-id="$props.category.id"></new-item>
                 <transition-group name="flip-list" tag="div">
                     <list-item
