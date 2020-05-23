@@ -15,7 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ListCategory from "../components/List-category.vue"
+import ListCategory from "../components/ListCategory.vue"
 
 export default {
     middleware: 'notAuthenticated',

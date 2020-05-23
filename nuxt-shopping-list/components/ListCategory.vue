@@ -23,8 +23,8 @@
 
 <script>
 import DropdownArrow from "../components/DropdownArrow.vue";
-import ListItem from "../components/List-item.vue"
-import NewItem from "../components/New-item.vue"
+import ListItem from "../components/ListItem.vue"
+import NewItem from "../components/NewItem.vue"
 
 export default {
     components: {
