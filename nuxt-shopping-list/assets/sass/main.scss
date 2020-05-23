@@ -10,11 +10,11 @@
     border-radius: 0.5rem;
     border: 0;
     color: $blue-19;
+    cursor: pointer;
     font-size: inherit;
     text-decoration: underline;
     &:hover {
         background-color: $blue-15;
         color: $blue-11;
-        cursor: pointer;
     }
 }

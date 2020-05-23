@@ -1,5 +1,5 @@
 <template>
-    <div class="category">
+    <div>
         <div class="category--header" @click="isCategoryOpenOnMobile = !isCategoryOpenOnMobile">
             <h2>{{ $props.name }}</h2>
             <dropdown-arrow
@@ -69,12 +69,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.category {
-    cursor: pointer;
-}
-
 .category--header {
     position: relative;
+    cursor: pointer;
     display: flex;
     margin: 0 0 1rem 0;
 }
@@ -105,6 +102,9 @@ export default {
 }
 
 @media (min-width: $breakpoint-large) {
+    .category--header {
+        cursor: auto;
+    }
     // Ignore the previous states.
     .category--collapsable-container {
         display: block !important;

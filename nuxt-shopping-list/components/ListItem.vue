@@ -87,6 +87,7 @@ $border-radius: 0.5rem;
         background-color: $blue-11;
         border: none;
         color: $blue-19;
+        cursor: pointer;
         font-size: inherit;
         height: 100%;
         padding: 0.5rem 2rem;
